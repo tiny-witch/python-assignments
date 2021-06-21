@@ -1,0 +1,664 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Poems: \n",
+    "* **haiku**: They have 5 syllables in the first line, 7 syllables in the second line, and 5 syllables in the last line. \n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "soource text foound here: https://www.victorianlondon.org/publications3/newtoilers-16.htm"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 126,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import random"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 127,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "sample_text= '''\n",
+    "WE have already mentioned a tradesman who has given us much information on the subject of servants. At his invitation a Commissioner went to meet some twenty servants, and have tea with them. The following is her account of the entertainment.\n",
+    "    Mr. --- is head man in a grocer's shop, and calls for orders at some of the largest houses in the West End. His wife was formerly a servant, and he has many relations \"in the domestic line of business.\" He is a Wesleyan, and teaches in a Wesleyan Sunday School. When our Commissioner arrived at his suburban villa, she was taken into a smart little sitting-room, full of chairs and sofas, with a large table in the centre. The table had a big Bible on it, also volumes of sermons, and a copy of \" Pilgrim's Progress.\" This room opened into another apartment, and there the table was spread for tea. While waiting [-114-] for the arrival of the guests, the Commissioner asked Mr. to give her his opinion on the subject of \" perquisites.\" He said that a friend of his, who is a butcher's assistant, had often talked to him about perquisites, and \"in a well-ordered house\" the scullery-maid has the bones, the kitchen-maid has the fat, and the cook has the dripping. Cooks or housekeepers receive presents from tradesmen at Christmas according to the amount of the year's purchases at the various shops, but butchers are their chief patrons. Butchers try to outbid one another with housekeepers and cooks in large London houses.\n",
+    "    \"It is in this way, you see,\" he said. \"A butcher calls on a cook, and says, 'If you make your mistress give up her present butcher and come to my shop, I'll give you a commission on that, and discount every week while you trade with me.' Then the cook complains of the meat to the mistress, or she manages to cook it tough, and the mistress says to her, 'We shall have to change our butcher.' She pretends to be sorry, and recommends the man who has offered her a commission. Then the mistress changes the butcher, and if he writes to complain, the mistress says that the meat did not give satisfaction. \"\n",
+    "    The Commissioner asked Mr.--- if cooks are in the habit of selling cooked meat, and told [-115-] him about a house in Kensington where the mistress opened her back door one foggy morning, and had a basin thrust into her hands by some one who said, \"Only three-penn'orth of beef today, and a little gravy.\"\n",
+    "    \"I don't know,\" he answered. \" A friend of mine is coming here to-day who has been housekeeper in some of the largest London houses. She will tell you more than I can.\"\n",
+    "    Then the guests began to arrive, and our Commissioner was introduced to ladies'-maids, house- maids, and cooks, also to three or four men-servants. A handsome young valet informed her that he had once thought of writing for the papers himself, but he had been told that the pay for such work was bad, and that writers had \"no position.\" \"I've heard my lady say, when she's been making up the list of people to have down at our country place, that, she must throw in a few writing folks to make it amusing. Writers don't bring much luggage, and by the look of their clothes I should say their purses are empty.\"\n",
+    "    Our Commissioner asked this young man if it is true that servants take the rank of their master or mistress, namely, that the lady's-maid of a duchess has a higher place at the housekeeper's table than Abigail of a peeress.\n",
+    "    \"Certainly,\"  he replied. \"I've sat down to [-116-] dinner with fifty ladies'-maids before now, and it's been hard enough to remember their position. And if you dance with one after dinner because she's a bit good-looking, and forget another that's got a higher mistress, you may be sure you'll hear of it again from some one. It's like walking on the edge of a sword, visiting about in some of these big houses. The men are right enough, but the women stick up for their dignity. And if you happen to go to a place where the housekeeper and the butler don't hit it off, it's worse than living in a situation where the master and mistress aren't friendly. The master and mistress can get a divorce, but the butler and the cook can't. It looks like giving in for one to go away, so there they stay on quarrelling all the time, until the servants complain, or one poisons the mistress's mind against the other, or something else takes place to separate the unhappy parties.\"\n",
+    "    The company then adjourned to tea. Our Commissioner was seated between the tradesman and a pretty little girl of sixteen. She asked the girl her name.\n",
+    "    \"Do you mean my real name, or the one I go by in the house?\" the girl inquired.\n",
+    "    \"What do they call you in the house?\"\n",
+    "    \"I go by the name of any favourite that's in - I mean any horse on which the men are betting.\"\n",
+    "   [-117-]  Our Commissioner inquired if betting goes on to any great extent among female servants.\n",
+    "    \"Bless you,\" said the valet, \"they're keener at it than the men. They don't gamble much, but they love betting.\"\n",
+    "    \"Why do they bet ?\"\n",
+    "    \"Because their lives are so dull. They must have some amusement,\" answered a lady's-maid. \"I don't bet myself, but I know others that do. Sometimes they copy their master and mistress.\"\n",
+    "    Then the tradesman, at our Commissioner's request, asked the company to suggest how \"a better understanding can be brought about between servants and mistresses.\"\n",
+    "    \"In my opinion,\" said a rather solemn-looking man, \"someone ought to write a book like 'Vice Versa,' and put the mistress in the servant's place.\"\n",
+    "    \"Or put the mistress behind the curtain of this room,\" suggested another, \"and let her hear what we've got to say about mistresses.\"\n",
+    "    \"Mistresses have no consideration,\" the valet said, \"nor have masters neither, unless they are aristocrats. I went to a house in ----- Square, some years ago, and I came in the first afternoon through the front door. My master was in the hall, and he said, 'Will you have the goodness to come with me, and I'll show you your way in [-118-] here?' He went to the area gate, and rung the bell. Says I, 'I am a gentleman, though I am a servant.' I walked in, packed my portmanteau, and left the house. Of course it isn't many can afford to be so independent, but I can, and it's a blessing.\"\n",
+    "    \"The airs some people give themselves!\" remarked a smartly-dressed parlour-maid. \"The other day a tradesman came to our house, and asked to see my mistress. I told her a gentleman wanted to see her. 'What do you mean,' said she, by calling a tradesman a gentleman ? 'Well, mam,' said I, 'I've been taught to call every one a gentleman, even a beggar. What else do you think I ought to call him?\"\n",
+    "    \"She wasn't much of a lady if she spoke to you like that,\" remarked another servant. \"In good houses the master always calls his servants Mr. or Miss; he never thinks of doing anything else. It's only in second-class houses they treat servants without any consideration. But it isn't every one can get into a big house ; some people must go into second-rate places, and then there is a great deal to put up with.\"\n",
+    "   \"My mistress said if I sauced her she'd send me away without a character,\" the parlou-rmaid continued. \"I'll stay my year, although she's a Tartar. She makes me walk up in front [-119-] of her to bed, and knock at her door so she may know at what time I get up in the morning. She sends me and the two others out sometimes, and then she and the master go down to the larder. They've nothing to do but worry us servants. If they'd keep to the parlour, and let us have the kitchen in peace, things would be easier to put up with.\"\n",
+    "    \"In my opinion,\" said a young woman, \"the system of giving characters is at the root of the mischief, because it gives mistresses such a hold over servants. Times are bad, and work is scarce, so servants must look out, for without a character they can do nothing. If a mistress wishes to spite a girl she can do it. Besides now it's always 'personal' characters that are wanted, and mistresses get confabulating over servants instead of writing down what they have to say for and against them on paper. They want to know when you were born, and they'd like you to give them a burial certificate. It's that 'no character' business that keeps servants so humble with mistresses. I don't see what can be done, but I sometimes think that the system of giving characters should be changed by Act of Parliament.\"\n",
+    "    \"If so,\" remarked the valet, \"it would have to be done by the Upper House. It's only the [-120-] aristocracy who treat servants properly. I tried one situation out of aristocratic circles, and that was where the man showed me his area gate. The aristocracy know how to behave to a gentleman, even if he happens to be a servant.\"\n",
+    "    \"Well, I've been both a servant and a mistress,\" remarked a middle-aged woman. \"I began as kitchen-maid, and I worked up to my last place, where I was housekeeper. I left because, although I pleased the master, I couldn't get on with the mistress. I believe servants like to be under a housekeeper better than under a lady, for housekeepers have been servants themselves, and know how to show consideration. I always let a servant see the kitchen and her sleeping accommodation before I engaged her, and I went more by her looks than her character. The best girl I ever had came to me with this letter:- ' Jane ---- has been with me one year, and went away to nurse her mother.' I think the system of letting a cook engage her own kitchen-maids and scullery-maids excellent, and the housemaid should engage her own servants too, also the head nurse her nursery-maids. Then there is order in the house, and without order every one becomes miserable. I gave my scullery-maid from £10 to £12 a year, and my kitchen maids from £16 to £18 a year, with their proper perquisites. Three meat meals [-121-] a day was my rule for everybody; I was not extravagant, and I was not stingy. Nothing was wasted, for all the scraps went to make soup for beggars. Every servant had ¼lb. tea, ½lb. butter, and ¾lb. sugar every week. Besides, I let the servants under me have a fixed time free each day. That's a thing ladies seldom think of doing. A servant likes to know how much time is her own, and to do what she pleases then without interference. Ladies seem to think that they buy servants body and soul for so much a year, and forget that a servant ought to be her own mistress for some part of the day, as well as every other Sunday.\"\n",
+    "    \"How many women servants were there in your last place?\" inquired the Commissioner.\n",
+    "    \"Well, there was me, the cook, two kitchen-maids, a scullery-maid, three housemaids, a schoolroom maid, and a lady's-maid, that's nine. Oh no, there were ten of us; I quite forgot the governess.\"\n",
+    "    We shall next look at the question from the other side Mistresses versus Servants.\n",
+    "\n",
+    " HAVING read \"Servants versus Mistresses\" in our last issue, Lady Florence , who is a constant reader of THE BRITISH WEEKLY, invited a Commissioner to meet half-a-dozen mistresses at her house, in order that the Commissioner might hear what ladies have to say about servants. Lady Florence made what is called \"a love marriage, namely, a matrimonial alliance in which money was a secondary consideration. The result is three children, a small house, and a limited income, all of which things she \"puts up with. But she groans over her servants.\n",
+    "    \"My dear! have you found a parlour-maid yet?\" she inquired, as one of the half-dozen ladies was announced by her own neat little maid-servant.\n",
+    "    The lady shook her head, and gave a graphic account of her difficulties.\n",
+    "    [-123-]\"London servants,\" she said, \"will starve in the streets sooner than go to service. The clergyman s wife in our parish tells me that the mothers foolishly take the part of the girls, and that nothing can be done to put sense into them. Her husband is going to preach a sermon on the subject.\"\n",
+    "    \"I wonder what he will take for his text!\" exclaimed Lady Florence. \"My cook is dreadfully untidy, and I cannot persuade her to look after her clothes. Only think, then, what my feelings were last Sunday week ! A foolish young curate walked into the pulpit, and preached on the text, 'Consider the lilies of the field.' You know how it goes on. My cook was there, of course; and the next morning when I tried to explain away all that the foolish young man had said in the pulpit, she answered, 'It isn't every one that thinks so much of dress as your ladyship. '\"\n",
+    "    \"I do not know what will become of servants,\" sighed another lady. \"I was actually told the other day by a housemaid who applied for my place, 'I'm not particular, mam, but I must have scented soap to wash with, and I can only eat delicate puddings.'\"\n",
+    "    \"Servants used to be so different!\" remarked another lady. \"My husband's old nurse comes [-124-] every year to visit us. She has a pension, and travels about to see her 'young ladies and gentlemen,' as she calls them still, although they are all married. But then servants had no education. She wrote to say, after she left us, that she had my youngest boy 'in her mind's high.' I believe that the difficulties mistresses have to put up with now are the result of over-education among servants. What do you think ?\" she inquired of our Commissioner.\n",
+    "    The Commissioner said that it was not the business of people who write for the press to form opinions on any subject, and that she had merely come there to report the opinions of half-a dozen mistresses on the subject of maid-servants. But she quoted as an example of \"over-education\" a parlour-maid who is in the family of a well- known M.P. This woman told our Commissioner that she enjoys her position as parlour-maid because it gives her an opportunity of hearing what is going on in politics. \"I look forward to our political dinner-parties,\" she said. \" and I enjoy the waiting, for then I hear all that politicians are thinking and doing. I make my hands and feet do the mechanical work, and I listen to the conversation.\"\n",
+    "    She went away to be married two years ago, but her husband died about a year after her [-125-] marriage, and then she begged the wife of the M.P. to take her back again. She has the greatest respect for her master, and admiration for her mistress. Speaking of the former, she said, \"He is that honest, he is only fit to be a Prime Minister;\" and of the latter, \"She can hold her own with him, although he is a Member of Parliament.\"\n",
+    "    \"Servants are so suspicious,\" said another mistress. \" It does not matter how kind you are to them, how much you put yourself about, they look upon you as their natural enemy. I believe it has always been the same from the beginning, and will remain so to the end, except in exceptional cases. It comes from our 'dual' establishments, I mean two families in one house, with no go-between but the children. And the children soon cease to be a 'go-between,' for it does not do to let boys be intimate with maid-servants.\"\n",
+    "    \"Of course,\" said Lady Florence, \"it would be easy to place servants on quite a different footing in the house if it were not for the young men. The great ambition of a woman servant is to marry a gentleman. She does not think, poor thing, of all she will have to bear from him and his relations. I know a lady's-maid who married the son of a baronet, and she came to consult me the other day about her little boy. 'I don't [-126-] know how it is,' she said, 'but I can't get him to talk like a gentleman. He uses queer words, and drops his h's, and that makes his father angry. His father seems quite ashamed of him. I can put up with slights from my husband's relations myself, but I can't bear to see my children slighted.'\"\n",
+    "    A long conversation then took place about young men who fall in love with servants, and our Commissioner was asked to give her opinion. She could only quote her own father, who always showed to his women-servants the same courtesy that he showed to visitors of their sex, who bowed to them out of doors, and taught his sons to behave as he did.\n",
+    "    \"My servants always come upstairs on Christmas Day (unless it is Sunday) to play games with the children,\" said a lady, \"and on New Year's Day my children go downstairs to tea in the kitchen. But it is always done by written invitation the children write to the servants and the servants write to the children.\"\n",
+    "    \"That does not remove the difficulty of the two families,\" remarked the lady who had previously said that servants are \"so suspicious.\"     \"Once a day all the inhabitants of the house meet at prayers, and then they separate for the day. One family lives upstairs, and the other [-127-]  downstairs; there is no place where they come together except the nursery.\"\n",
+    "    \"I see no help for that,\" said Lady Florence. \"All are equal when they die, but here there must be social distinctions. I remember when my grandmother was buried in the family vault, and the water got into it, an old servant said, 'To think that her ladyship, who was so much better off than us when she was alive, is so much worse off when she is buried We do get dry graves, at any rate.'\"\n",
+    "    \"Well, I think that servants are very much to be envied,\" said another mistress. \"They have comfortable homes, good food, kind treatment no responsibilities, and money enough to be independent in their old age. In return for all this we have a right to expect from them gratitude, at any rate. Yet they are the most ungrateful race under the face of the sun, and the most deceitful. What do you think, Lady Florence ?\"\n",
+    "    \"Oh, don't ask me!\" groaned Lady Florence. \"My present cook is dirty, and my last cook was impertinent. The last one always quoted her previous mistress, and used to say, 'Mrs.---- did this, or that; but then she was a lady.' At last I had to turn her out of the house, with a month's wages, at a moment's notice. She refused to go, because I am a widow ; and when I told [-128-] her that I should send for my friend Mr. --- who lives close by, to make her go away, she said, 'Your friend! I came up with him in a third-class carriage from the City last week. A nice sort of friend he is, to travel in a third-class carriage!' Of course she was tipsy, but all London cooks seem given to drinking.\"\n",
+    "   \"If things go on like this we shall soon have to do the work ourselves, for good servants are rare, and bad servants are such a nuisance,\" said a lady. \"'The levelling spirit of the age,' my husband calls it. I hope before long we shall see the work done by machinery, for in London young women will even go into the Salvation Army sooner than become servants.\"\n",
+    "    \"There are some Christian servants left,\" observed another lady- young women who are content with the position in which it has pleased God to place them. Their number is few, I admit; but some few remember the text 'Servants, be obedient to them that are your masters according to the flesh, with fear and trembling, in singleness of your heart as unto Christ.' Such servants find good mistresses, for the Bible commands, in more than seven hundred places, that servants should be treated with love and kindness. When servants are unmannerly and impudent, it cannot be expected that they should find sympathetic [-129-] mistresses; but if they study their employers, their employers will study them - at least, that is my experience.\"\n",
+    "    \"How to treat women-servants is a problem,\" sighed Lady Florence. \"They are much more difficult to deal with than men-servants.\"\n",
+    "    \"The problem to me has always been how men can bear to be waited upon by women,\" remarked our Commissioner. \"I have not the smallest compunction about men-servants; I do not care how often I send them up and downstairs, or how much I make them fetch and carry; they are strong, and if they like the position of menials it is not my business. But when I see a parlour-maid waiting on half-a-dozen men, walking about the room with a pale face, dragging herself from seat to seat, looking ill, sometimes half-fainting, I always wonder how the men can enjoy their dinner. Some men cannot bear it, and will not be waited upon at all if they cannot afford to keep a man-servant. But most men never seem to see anything but the menu, or to think of any one but the cook.\"\n",
+    "    \"I heard a man say to his wife, not long ago, 'I will not let you dismiss Mrs.--- (the cook). I could get another wife, but I could not replace Mrs.-- -. So you must put up with her' laughed a mistress. \"Some of the happiest [-130-] marriages I have known have been between masters and cooks,\" she continued ; \"I intend all of my daughters to learn cooking.\"\n",
+    "    The conversation then turned on the subject of men-servants, and Lady Florence related an anecdote about a footman who was in the service of Mr. Studd, the father of the famous cricketers. Some of the ladies thought the anecdote frivolous; and our Commissioner wished them good-bye, as we have nothing to do with men-servants in these articles.\n",
+    "    WE do not mean to say that the factory-girl proper cannot be found among those who term themselves \" City work-girls;\" in fact, we have come across her again and again working amongst them. But she is not of them. Any one who has studied the young women of the metropolis can pick her out in a minute if she strays into their ranks, for she belongs to another genus. City work-girls ply over two hundred distinct employments, to say nothing of the hundred and one odd trades which could not be carried on without their help, at any rate could not be carried on with so much profit.\n",
+    "    We will give a few examples of these employments:- Bookbinder and folder, brush maker, button maker, compositor, electric light fitter, gentleman's cravat maker, gold and silver burnisher, indiarubber stamp machinist, instrument coverer, leather bag maker, muff liner, spectacle maker, surgical instrument maker, umbrella maker, straw [-184-] worker, gun-cap maker, harness maker, maltine weigher, crystallising glass photo-frame maker, portmanteau worker, perfumer, pattern card mounter, magic lantern slide maker, etc., etc.\n",
+    "    Half a century ago the trades open to women were very few. Needles were almost the only implements they could handle in order to gain their living. Now commerce admits women into almost all of its branches; and, although they are heavily handicapped, we see female labourers pushing on in every direction. They are forming Trades Unions, and making friends with workers of the other sex, who begin to think that, if the work is the same, the pay should be equal. The day on which the London Trades Council came forward as the friend of the match-girls formed an epoch in the history of the female labour market. Men are beginning to realize that they must work with women and not against them, for the thin edge of the wedge has gone into the masculine conscience. Besides, the men see that they must get the good-will of the women if they want to shut out the children, to cut off the last resource of the capitalist in his greed for profit. Self-interest is at the bottom of most things, and since the example has been set by the London Trades Unionists, men throughout the country are beginning to pose as the champions of [-185-] the weaker sex. Human motives are very mixed, so, while we recognise the chivalry of men in helping forward the interests of female labour, we must not be blind to the fact that both sexes are beginning to see very plainly that \"like as the arrows in the hand of the giant, even so are the young children\" in the hands of the capitalist.\n",
+    "    Women who wish to form a Trades Union, or who are interested in this subject, and desire to know more about it, are ~ to write to Miss Clementina Black, secretary of the Women's Provident League and Trades Union, Industrial Hall, Clark's Buildings, Broad Street, W.C.\n",
+    "    The wages of City work-girls vary from 8s. to 14s. per week. Some earn much more, few earn less ; but taking \"slack times\" into consideration, 8s. to 14s. are their wages.\n",
+    "    \"Slack time\" is the bugbear of the City work- girl. If the work were regular she would be a fairly happy individual ; but she does not earn enough to put by, and, although she knows pretty well when the slack season will set in, she cannot provide for it. Supposing she is a London girl her family help her, and she makes her clothes during slack weeks, or assists her mother in household matters ; but, if she is a stranger in the metropolis, she pawns her clothes, and falls back upon other means of subsistence. It is a curious [-186-] fact that, although most of these girls belong to the artisan class, the greater number of them are not Londoners; they come from all parts of the United Kingdom to pick up the gold which is still supposed to pave the streets of the metropolis. Very few go back to tell the tale of the great City; so girls daily flock into our Modern Babylon from small towns and country villages. Two girls, friends, have come under our notice. They were discontented with their life in a small market town in the South of England, and came to London to make their fortune. They took a room in the West Central district, and began to look for work. On applying at various places they were told \"No hands are wanted;\" and at others they heard, \"We never take girls who have not been properly taught, country hands are of no use to us.\" Bit by bit they pawned all their clothes, and still they walked from place to place looking for work. One day they met their old employer, who had come to London on business. He ~vas shocked to see how thin they had become, to notice their ragged clothes and anxious appearance. He offered to take them back, for they had good characters, and had given him satisfaction during the years they had worked for him. But they were too proud to give in. They could not let their friends in the market [-187-] town see that they had no value in the great City. They refused his offer with tears, he says; but they went on their way, and he never saw them again. Within a year from that time these girls were dead. One died from the effect of drugs given to her by a chemist ; the other died in childbirth.\n",
+    "    If parents, clergymen, and those in authority throughout the United Kingdom would realize the fact, and impress it upon girls, that in London at the present time there is a plethora of young women, it would be a great blessing. Such people are apt to think, if work is difficult to get in country districts, a girl is sure to find something to do in London. They merely send a girl to damnation if they help her to swell the numbers of the London girls who now compete for a living. These London girls find the struggle almost more than they can manage, although they have homes in the metropolis, and friends to fall back upon during slack times. A girl who is a stranger here is the most destitute and helpless individual one can well imagine. Employers prefer London girls, who have, as they say, \"all their wits about them and a proper training.\" So the country competitors tramp from place to place seeking employment ; and if they do get work they lose it again, for they cannot tide over slack times. [-188-] They have no friends to fall back upon, no homes to live in during the weeks and months in which no one can give them employment.\n",
+    "    There is one trade in London that has no slack time for women, and the number of those who ply it is said to be no less than 100,000. Their number was some years ago 80,000, but now 20,000 more have joined it. City work-girls do not add to its number openly, but they swell the numbers of those women who carry on a hidden trade to eke out their wages. This hidden trade has recruits among all classes of young women in London, from the pretty, neatly dressed little governess who trips into the precincts of the Law Courts on Saturday night, to the flower-girl who would swear until black in the face if she heard herself accused of anything so nefarious.\n",
+    "    We have decided not to speak of the open traffic; but the hidden trade must be mentioned in connection with these City work-girls.\n",
+    "    No one supposes that young men in Tempted London live the lives of celibates until those days when fortune gives them money enough to be married. Moreover, it is a fact that large numbers of these young men are encouraged by their parents to form relationships with young women-relationships of a more or less permanent character, but which are not intended [-189-] to end in marriage. The girls, no doubt, expect to attach the men to themselves permanently but to the honour of the men it must be said that they give no reason for such hopes, and let the girls clearly understand what is meant by such relationships. We need not say here why mothers and fathers encourage these proceedings; but that they do so we have full evidence. The girls fall into no trap, for the men help to eke out their wages, and add to the brightness of their lives by tickets for theatres, visits to music-halls, novelettes, and gifts of jewellery and dresses. These poor girls must make a smart appearance. If they receive more wages than the factory-girl proper, it is because their employers insist on a smart appearance. The factory-girl's dress costs next to nothing, but the City work-girl must starve herself, and go without proper underclothing, in order to buy the smart clothes which make the ignorant think her well-off and extravagant. An example is better than further description.\n",
+    "    We sent a Commissioner into a lodging-house about ten minutes' walk from the City, which is frequented by clerks earning about £2 a week, and by girls engaged in various employments, i.e., City work-girls. This house holds over forty people. Rooms in it vary from 7s. 6d. a week [-190-] to 3s. 6d. The City work-girl pays usually 3s. 6d. for a room by herself; but her habit is to engage a room at 5s. per week, and share it with a companion. The same fire and lights then do for both, also the same fee to the slavey who waits upon such establishments. There are various other economies connected with these 5s. arrangements which we forget; but the room is generally large, furnished with a bed, horse-hair sofa, and armchair, three or four chairs, a table, and a chest of drawers. On the wall are some prints, and on the fireplace a few china ornaments. Each lodger has a latch-key. Meals are served in the bedroom. Our Commissioner engaged a room at 5s. a week, next to two City work-girls, who had then been two years in the house. She was introduced to these \"young ladies\" by the landlady the first night, when one of them was carrying up supper-two red herrings, some beer, bread, and red cabbage pickle. Both of these girls had sweethearts, young men who came in the evening and stayed until one or two o'clock in the morning. Sometimes one girl went to the theatre or a music-hall with her sweetheart, and the other remained at home with her sweetheart to make a dress or trim a hat. Then beer was fetched, or a bottle of wine, and those at home had what the girls called a quiet [-191-] evening. On Sunday the sweethearts arrived before the girls were up, and stayed all day, paying for their own dinner. After the sweethearts went away, at one or two o'clock in the morning, the lodgers upstairs or downstairs paid the girls visits, stopping in their room until six or seven o'clock. While our Commissioner was there, one girl quarrelled with her sweetheart, and took a lodger in his place. It is needless to say that the girls received money and presents from these young men, besides being treated by them to places of entertainment and to outings. The girls were not Londoners-one had come from Norfolk, the other from the North of England. They had made friends in London, and worked near one another, but not at the same employment. They talked of their sweethearts in a frank, easy way, and also of other things connected with their mode of life, which we cannot make public. These girls would have been horrified if any one had suggested that the State and the Church would class them with prostitutes.\n",
+    "    Our Commissioner asked the landlady if she considered it right to let young men come and go at all hours of the day and night. The answer was-\n",
+    "    \"Lor', they're the girls' sweethearts.\"\n",
+    "    [-192-] And when it was suggested to this worthy individual that her lodgers led a careless sort of life in her house, she said,\n",
+    "    \"Well, but the young men wouldn't stay if I interfered with 'em. Young people will be young people. It isn't my business.\"\n",
+    "    This house is especially recommended by the clergy of the district.\n",
+    "    We do not mean to say that City work-girls ply the hidden trade more than other girls; but the fact that so many of them are strangers in London, living in rooms, and unprotected, makes them more inclined to become the mistresses of young men who cannot afford to marry, and who do not care to associate with common prostitutes. These girls must live. Their wages are low, owing to the fact that there are in London too many of them, and slack times force them to do things they would prefer to leave undone.\n",
+    "\n",
+    "[-193-]\n",
+    "\n",
+    "'''"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 128,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "#code: https://stackoverflow.com/questions/46759492/syllable-count-in-python\n",
+    "#this code is not perfect but it'll do\n",
+    "def syllable_count(word):\n",
+    "    word = word.lower()\n",
+    "    count = 0\n",
+    "    vowels = \"aeiouy\"\n",
+    "    if word[0] in vowels:\n",
+    "        count += 1\n",
+    "    for index in range(1, len(word)):\n",
+    "        if word[index] in vowels and word[index - 1] not in vowels:\n",
+    "            count += 1\n",
+    "    if word.endswith(\"e\"):\n",
+    "        count -= 1\n",
+    "    if count == 0:\n",
+    "        count += 1\n",
+    "    return count\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 129,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "clothes\n"
+     ]
+    }
+   ],
+   "source": [
+    "##split the words\n",
+    "from random import randint\n",
+    "words = sample_text.split()\n",
+    "l= randint(0, len(words)-1)\n",
+    "print(words[l])\n",
+    "\n",
+    "# for i in range(0,len(words)):\n",
+    "#     print(words[i], \" : \", syllable_count(words[i]))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 130,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "$: dollar\n",
+      "    $ -$ --$ A$ C$ HK$ M$ NZ$ S$ U.S.$ US$\n",
+      "'': closing quotation mark\n",
+      "    ' ''\n",
+      "(: opening parenthesis\n",
+      "    ( [ {\n",
+      "): closing parenthesis\n",
+      "    ) ] }\n",
+      ",: comma\n",
+      "    ,\n",
+      "--: dash\n",
+      "    --\n",
+      ".: sentence terminator\n",
+      "    . ! ?\n",
+      ":: colon or ellipsis\n",
+      "    : ; ...\n",
+      "CC: conjunction, coordinating\n",
+      "    & 'n and both but either et for less minus neither nor or plus so\n",
+      "    therefore times v. versus vs. whether yet\n",
+      "CD: numeral, cardinal\n",
+      "    mid-1890 nine-thirty forty-two one-tenth ten million 0.5 one forty-\n",
+      "    seven 1987 twenty '79 zero two 78-degrees eighty-four IX '60s .025\n",
+      "    fifteen 271,124 dozen quintillion DM2,000 ...\n",
+      "DT: determiner\n",
+      "    all an another any both del each either every half la many much nary\n",
+      "    neither no some such that the them these this those\n",
+      "EX: existential there\n",
+      "    there\n",
+      "FW: foreign word\n",
+      "    gemeinschaft hund ich jeux habeas Haementeria Herr K'ang-si vous\n",
+      "    lutihaw alai je jour objets salutaris fille quibusdam pas trop Monte\n",
+      "    terram fiche oui corporis ...\n",
+      "IN: preposition or conjunction, subordinating\n",
+      "    astride among uppon whether out inside pro despite on by throughout\n",
+      "    below within for towards near behind atop around if like until below\n",
+      "    next into if beside ...\n",
+      "JJ: adjective or numeral, ordinal\n",
+      "    third ill-mannered pre-war regrettable oiled calamitous first separable\n",
+      "    ectoplasmic battery-powered participatory fourth still-to-be-named\n",
+      "    multilingual multi-disciplinary ...\n",
+      "JJR: adjective, comparative\n",
+      "    bleaker braver breezier briefer brighter brisker broader bumper busier\n",
+      "    calmer cheaper choosier cleaner clearer closer colder commoner costlier\n",
+      "    cozier creamier crunchier cuter ...\n",
+      "JJS: adjective, superlative\n",
+      "    calmest cheapest choicest classiest cleanest clearest closest commonest\n",
+      "    corniest costliest crassest creepiest crudest cutest darkest deadliest\n",
+      "    dearest deepest densest dinkiest ...\n",
+      "LS: list item marker\n",
+      "    A A. B B. C C. D E F First G H I J K One SP-44001 SP-44002 SP-44005\n",
+      "    SP-44007 Second Third Three Two * a b c d first five four one six three\n",
+      "    two\n",
+      "MD: modal auxiliary\n",
+      "    can cannot could couldn't dare may might must need ought shall should\n",
+      "    shouldn't will would\n",
+      "NN: noun, common, singular or mass\n",
+      "    common-carrier cabbage knuckle-duster Casino afghan shed thermostat\n",
+      "    investment slide humour falloff slick wind hyena override subhumanity\n",
+      "    machinist ...\n",
+      "NNP: noun, proper, singular\n",
+      "    Motown Venneboerger Czestochwa Ranzer Conchita Trumplane Christos\n",
+      "    Oceanside Escobar Kreisler Sawyer Cougar Yvette Ervin ODI Darryl CTCA\n",
+      "    Shannon A.K.C. Meltex Liverpool ...\n",
+      "NNPS: noun, proper, plural\n",
+      "    Americans Americas Amharas Amityvilles Amusements Anarcho-Syndicalists\n",
+      "    Andalusians Andes Andruses Angels Animals Anthony Antilles Antiques\n",
+      "    Apache Apaches Apocrypha ...\n",
+      "NNS: noun, common, plural\n",
+      "    undergraduates scotches bric-a-brac products bodyguards facets coasts\n",
+      "    divestitures storehouses designs clubs fragrances averages\n",
+      "    subjectivists apprehensions muses factory-jobs ...\n",
+      "PDT: pre-determiner\n",
+      "    all both half many quite such sure this\n",
+      "POS: genitive marker\n",
+      "    ' 's\n",
+      "PRP: pronoun, personal\n",
+      "    hers herself him himself hisself it itself me myself one oneself ours\n",
+      "    ourselves ownself self she thee theirs them themselves they thou thy us\n",
+      "PRP$: pronoun, possessive\n",
+      "    her his mine my our ours their thy your\n",
+      "RB: adverb\n",
+      "    occasionally unabatingly maddeningly adventurously professedly\n",
+      "    stirringly prominently technologically magisterially predominately\n",
+      "    swiftly fiscally pitilessly ...\n",
+      "RBR: adverb, comparative\n",
+      "    further gloomier grander graver greater grimmer harder harsher\n",
+      "    healthier heavier higher however larger later leaner lengthier less-\n",
+      "    perfectly lesser lonelier longer louder lower more ...\n",
+      "RBS: adverb, superlative\n",
+      "    best biggest bluntest earliest farthest first furthest hardest\n",
+      "    heartiest highest largest least less most nearest second tightest worst\n",
+      "RP: particle\n",
+      "    aboard about across along apart around aside at away back before behind\n",
+      "    by crop down ever fast for forth from go high i.e. in into just later\n",
+      "    low more off on open out over per pie raising start teeth that through\n",
+      "    under unto up up-pp upon whole with you\n",
+      "SYM: symbol\n",
+      "    % & ' '' ''. ) ). * + ,. < = > @ A[fj] U.S U.S.S.R * ** ***\n",
+      "TO: \"to\" as preposition or infinitive marker\n",
+      "    to\n",
+      "UH: interjection\n",
+      "    Goodbye Goody Gosh Wow Jeepers Jee-sus Hubba Hey Kee-reist Oops amen\n",
+      "    huh howdy uh dammit whammo shucks heck anyways whodunnit honey golly\n",
+      "    man baby diddle hush sonuvabitch ...\n",
+      "VB: verb, base form\n",
+      "    ask assemble assess assign assume atone attention avoid bake balkanize\n",
+      "    bank begin behold believe bend benefit bevel beware bless boil bomb\n",
+      "    boost brace break bring broil brush build ...\n",
+      "VBD: verb, past tense\n",
+      "    dipped pleaded swiped regummed soaked tidied convened halted registered\n",
+      "    cushioned exacted snubbed strode aimed adopted belied figgered\n",
+      "    speculated wore appreciated contemplated ...\n",
+      "VBG: verb, present participle or gerund\n",
+      "    telegraphing stirring focusing angering judging stalling lactating\n",
+      "    hankerin' alleging veering capping approaching traveling besieging\n",
+      "    encrypting interrupting erasing wincing ...\n",
+      "VBN: verb, past participle\n",
+      "    multihulled dilapidated aerosolized chaired languished panelized used\n",
+      "    experimented flourished imitated reunifed factored condensed sheared\n",
+      "    unsettled primed dubbed desired ...\n",
+      "VBP: verb, present tense, not 3rd person singular\n",
+      "    predominate wrap resort sue twist spill cure lengthen brush terminate\n",
+      "    appear tend stray glisten obtain comprise detest tease attract\n",
+      "    emphasize mold postpone sever return wag ...\n",
+      "VBZ: verb, present tense, 3rd person singular\n",
+      "    bases reconstructs marks mixes displeases seals carps weaves snatches\n",
+      "    slumps stretches authorizes smolders pictures emerges stockpiles\n",
+      "    seduces fizzes uses bolsters slaps speaks pleads ...\n",
+      "WDT: WH-determiner\n",
+      "    that what whatever which whichever\n",
+      "WP: WH-pronoun\n",
+      "    that what whatever whatsoever which who whom whosoever\n",
+      "WP$: WH-pronoun, possessive\n",
+      "    whose\n",
+      "WRB: Wh-adverb\n",
+      "    how however whence whenever where whereby whereever wherein whereof why\n",
+      "``: opening quotation mark\n",
+      "    ` ``\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Formatting text for the Poem Generator from here:\n",
+    "# https://danielelfanbaum.com/projects/python-poems/\n",
+    "import nltk\n",
+    "#help: what are the tags?\n",
+    "nltk.help.upenn_tagset()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 131,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "NN\n",
+      "NNPS\n",
+      "NNP\n",
+      "NNS\n",
+      "['tradesman', 'information', 'subject', 'invitation', 'commissioner', 'following', 'account', 'entertainment', 'mr.', 'man', 'grocer', 'shop', 'end', 'wife', 'servant', 'line', 'business', 'wesleyan', 'school', 'villa', 'sitting-room', 'table', 'centre', 'bible', 'copy', 'pilgrim', 'progress', 'room', 'apartment', 'tea', 'arrival', 'opinion', 'friend', 'butcher', 'assistant', 'house', 'scullery-maid', 'kitchen-maid', 'fat', 'cook', 'dripping', 'christmas', 'amount', 'year', 'london', 'way', 'mistress', 'come', 'commission', 'discount', 'week', 'meat', 'satisfaction.', 'habit', 'kensington', 'door', 'foggy', 'morning', 'basin', 'thrust', \"three-penn'orth\", 'beef', 'today', 'gravy', 'mine', 'to-day', 'valet', 'pay', 'work', 'position', 'list', 'country', 'place', 'luggage', 'look', 'rank', 'master', \"lady's-maid\", 'duchess', 'housekeeper', 'abigail', 'peeress', 'dinner', 'bit', 'edge', 'sword', 'dignity', 'butler', 'living', 'situation', 'divorce', 'time', 'mind', 'something', 'company', 'girl', 'sixteen', 'name', 'favourite', 'horse', 'betting', 'extent', 'bless', 'keener', 'amusement', 'request', 'understanding', 'someone', 'book', 'versa', 'curtain', 'consideration', 'square', 'afternoon', 'hall', 'goodness', 'area', 'gate', 'bell', 'gentleman', 'portmanteau', 'course', 'blessing', 'parlour-maid', 'day', 'beggar', 'lady', 'anything', 'second-class', 'deal', 'character', 'continued', 'tartar', 'bed', 'knock', 'larder', 'nothing', 'parlour', 'kitchen', 'peace', 'woman', 'system', 'root', 'mischief', 'hold', 'paper', 'certificate', 'act', 'parliament', 'aristocracy', 'see', 'accommodation', 'letter', 'jane', 'mother', 'excellent', 'housemaid', 'head', 'order', '£10', '£16', 'rule', 'everybody', 'soup', 'butter', 'sugar', 'thing', 'interference', 'body', 'soul', 'part', 'sunday', 'schoolroom', 'maid', 'governess', 'question', 'side', 'versus', 'issue', 'florence', 'reader', 'love', 'marriage', 'alliance', 'money', 'result', 'income', 'dear', 'service', 'clergyman', 'parish', 'sense', 'husband', 'sermon', 'text', 'curate', 'pulpit', 'field', 'dress', 'ladyship', 'soap', 'nurse', 'pension', 'education', 'boy', 'over-education', 'press', 'dozen', 'example', 'family', 'm.p', 'opportunity', 'waiting', 'conversation', 'respect', 'admiration', 'speaking', 'honest', 'minister', 'latter', 'member', 'mistress.', 'kind', 'enemy', 'beginning', 'footing', 'ambition', 'son', 'baronet', 'queer', 'father', 'angry', 'courtesy', 'sex', 'difficulty', 'meet', 'nursery', 'help', 'grandmother', 'vault', 'water', 'rate', 'food', 'treatment', 'enough', 'age', 'return', 'right', 'race', 'face', 'sun', 'one', 'month', 'moment', 'notice', 'widow', 'carriage', 'city', 'sort', 'tipsy', 'nuisance', 'levelling', 'spirit', 'hope', 'machinery', 'salvation', 'army', 'sooner', 'number', 'flesh', 'fear', 'trembling', 'singleness', 'heart', 'christ', 'kindness', 'impudent', 'experience', 'problem', 'compunction', 'seat', 'ill', 'menu', 'mrs.', '-130-', 'cooking', 'anecdote', 'footman', 'studd', 'good-bye', 'proper', 'term', 'work-girls', 'fact', 'metropolis', 'minute', 'genus', 'ply', 'odd', 'profit', 'bookbinder', 'folder', 'brush', 'maker', 'button', 'compositor', 'light', 'fitter', 'cravat', 'gold', 'silver', 'burnisher', 'indiarubber', 'machinist', 'coverer', 'leather', 'bag', 'muff', 'liner', 'spectacle', 'instrument', 'umbrella', 'worker', 'gun-cap', 'harness', 'maltine', 'weigher', 'glass', 'photo-frame', 'perfumer', 'card', 'mounter', 'slide', 'century', 'direction', 'match-girls', 'epoch', 'history', 'labour', 'market', 'wedge', 'conscience', 'good-will', 'resource', 'capitalist', 'greed', 'self-interest', 'bottom', 'chivalry', 'hand', 'giant', 'union', 'desire', 'secretary', 'provident', 'league', 'clark', 'street', 'vary', 'earn', 'slack', 'bugbear', 'individual', 'season', 'household', 'stranger', 'subsistence', 'class', 'kingdom', 'tale', 'flock', 'babylon', 'life', 'town', 'south', 'england', 'fortune', 'district', 'use', 'employer', 'appearance', 'satisfaction', 'value', 'offer', 'effect', 'chemist', 'childbirth', 'authority', 'plethora', 'struggle', 'training', 'employment', 'trade', 'pretty', 'law', 'night', 'flower-girl', 'traffic', 'connection', '-189-', 'doubt', 'honour', 'reason', 'evidence', 'fall', 'trap', 'brightness', 'jewellery', 'factory-girl', 'work-girl', 'underclothing', 'smart', 'well-off', 'extravagant', 'description', 'lodging-house', 'walk', 'herself', 'share', 'companion', 'fire', 'fee', 'slavey', 'sofa', 'armchair', 'chest', 'wall', 'fireplace', 'china', 'lodger', 'bedroom', 'landlady', 'beer', 'bread', 'cabbage', 'pickle', 'evening', \"o'clock\", 'theatre', 'sweetheart', 'home', 'hat', 'bottle', 'wine', 'girls', 'norfolk', 'north', 'frank', 'mode', 'state', 'church', 'lor', 'clergy', 'undone', '-114-', '-115-', '-116-', \"'vice\", '-118-', '-119-', '-120-', '¼lb', '½lb', '¾lb', '-124-', '-127-', '-128-', '-129-', '-184-', '-185-', '-186-', '-187-', '-190-', '-191-', '-192-', \"'em\", 'servants', 'orders', 'houses', 'relations', 'teaches', 'chairs', 'sofas', 'volumes', 'sermons', 'guests', 'perquisites', 'bones', 'cooks', 'housekeepers', 'presents', 'tradesmen', 'purchases', 'shops', 'butchers', 'patrons', 'complains', 'hands', \"ladies'-maids\", 'maids', 'men-servants', 'papers', 'writers', 'people', 'folks', 'clothes', 'purses', 'men', 'women', 'poisons', 'parties', 'lives', 'others', 'mistresses', 'masters', 'aristocrats', 'years', 'places', 'things', 'characters', 'times', 'circles', 'looks', 'kitchen-maids', 'nursery-maids', 'meals', 'scraps', 'beggars', 'ladies', 'likes', 'housemaids', 'ten', 'children', 'difficulties', 'streets', 'tells', 'mothers', 'feelings', 'lilies', 'puddings', 'travels', 'gentlemen', 'opinions', 'maid-servants', 'politics', 'dinner-parties', 'politicians', 'feet', 'cases', 'establishments', 'families', 'boys', 'words', 'slights', 'women-servants', 'visitors', 'doors', 'sons', 'upstairs', 'games', 'downstairs', 'inhabitants', 'prayers', 'distinctions', 'graves', 'homes', 'responsibilities', 'wages', 'god', \"'servants\", 'commands', 'employers', 'menials', 'daughters', 'cricketers', 'articles', 'ranks', 'employments', 'trades', 'examples', 'needles', 'implements', 'admits', 'branches', 'labourers', 'unions', 'friends', 'workers', 'besides', 'unionists', 'champions', 'motives', 'interests', 'sexes', 'arrows', 'buildings', 'weeks', 'matters', 'means', 'londoners', 'parts', 'towns', 'villages', 'tears', 'drugs', 'parents', 'clergymen', 'districts', 'numbers', 'wits', 'competitors', 'months', 'recruits', 'classes', 'precincts', 'courts', 'celibates', 'days', 'relationships', 'women-relationships', 'hopes', 'fathers', 'proceedings', 'tickets', 'theatres', 'visits', 'music-halls', 'novelettes', 'gifts', 'dresses', 'costs', 'minutes', 'clerks', 'rooms', 'pays', 'lights', 'economies', 'arrangements', 'drawers', 'prints', 'ornaments', 'herrings', 'sweethearts', 'lodgers', 'outings', 'prostitutes', 'hours', 'strangers']\n",
+      "JJ\n",
+      "JJR\n",
+      "JJS\n",
+      "['much', 'head', 'west', 'many', 'domestic', 'wesleyan', 'sunday', 'suburban', 'smart', 'little', 'full', 'large', 'big', 'well-ordered', 'various', 'chief', 'present', 'tough', 'sorry', 'cooked', 'back', 'house-', 'handsome', 'young', 'such', 'bad', 'lady', 'few', 'empty', 'true', 'fifty', 'good-looking', 'sure', 'right', 'other', 'unhappy', 'real', 'great', 'female', 'dull', \"lady's-maid\", 'solemn-looking', 'first', 'front', 'independent', 'airs', 'smartly-dressed', 'mam', 'good', 'second-rate', 'parlou-rmaid', 'scarce', \"'personal\", 'burial', 'humble', 'upper', 'aristocratic', 'middle-aged', 'last', 'housekeeper', 'servant', 'sleeping', 'own', 'scullery-maids', 'miserable', 'scullery-maid', 'proper', '-121-', 'extravagant', 'stingy', 'fixed', 'free', 'next', 'read', 'constant', 'british', 'weekly', 'half-a-dozen', 'matrimonial', 'secondary', 'small', 'limited', 'parlour-maid', 'half-dozen', 'neat', 'maid-servant', 'graphic', '-123-', 'untidy', 'foolish', 'particular', 'delicate', 'different', 'old', \"'young\", 'married', 'high', 'half-a', 'well-', 'known', 'political', 'mechanical', '-125-', 'former', 'fit', 'prime', 'suspicious', 'natural', 'same', 'exceptional', \"'dual\", 'go-between', \"'go-between\", 'intimate', 'easy', 'poor', '-126-', 'long', 'new', 'equal', 'social', 'alive', 'dry', 'comfortable', 'ungrateful', 'deceitful', 'dirty', 'impertinent', 'previous', 'third-class', 'nice', 'rare', \"'the\", 'london', 'become', 'christian', 'lady-', 'content', 'unto', 'bible', 'hundred', 'unmannerly', 'sympathetic', 'difficult', 'strong', 'pale', 'half-fainting', 'man-servant', 'famous', 'frivolous', 'factory-girl', 'work-girls', 'distinct', 'electric', 'stamp', 'instrument', 'surgical', 'straw', 'pattern', 'magic', 'lantern', 'only', 'thin', 'masculine', 'human', 'mixed', 'interested', 'clementina', 'black', 'industrial', 'broad', 'slack', 'work-', 'regular', 'happy', 'curious', 'artisan', 'united', 'girls', 'daily', 'modern', 'central', 'ragged', 'anxious', 'proud', 'dead', 'apt', 'destitute', 'helpless', 'individual', '-188-', 'hidden', 'saturday', 'nefarious', 'open', 'tempted', 'permanent', 'ignorant', 'further', 'ten', 'forty', 'work-girl', 'horse-hair', 'latch-key', 'supper-two', 'red', 'music-hall', 'quiet', 'needless', 'londoners-one', 'public', 'was-', 'worthy', 'careless', 'unprotected', 'inclined', 'common', 'low', '-193-', 'more', 'higher', 'worse', 'better', 'easier', 'sooner', 'weaker', 'greater', 'less', 'answer', 'largest', 'best', 'youngest', 'greatest', 'least', 'smallest', 'most', 'happiest']\n",
+      "RBS\n",
+      "RBR\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "RBS\n",
+      "RP\n",
+      "['most', 'better', 'more', 'less', 'up', 'down', 'off', 'out']\n"
+     ]
+    }
+   ],
+   "source": [
+    "\n",
+    "tokenizer = nltk.RegexpTokenizer(r\"\\w+\")\n",
+    "# text2 = nltk.word_tokenize(text)\n",
+    "text2 = tokenizer.tokenize(sample_text)\n",
+    "result = nltk.pos_tag(text2)\n",
+    "# print(result)\n",
+    "lines = sample_text.lower()\n",
+    "tokenized = nltk.word_tokenize(lines)\n",
+    "\n",
+    "def get_wordlist( y, *x,):\n",
+    "#     print(y, \" :\")\n",
+    "#     y=[]\n",
+    "    for i in x:\n",
+    "        print(i)\n",
+    "        for word in nltk.pos_tag(tokenized):\n",
+    "            if word[-1] == i and len(word[0])>1==True:\n",
+    "                y.append(word[0])\n",
+    "    #remove repeat words\n",
+    "    \n",
+    "    y= list(dict.fromkeys(y))\n",
+    "    print(y)\n",
+    "nouns_any=[]\n",
+    "get_wordlist(nouns_any, 'NN', 'NNPS', \"NNP\", \"NNS\")\n",
+    "adjs_any=[]\n",
+    "get_wordlist(adjs_any, 'JJ', \"JJR\", \"JJS\") \n",
+    "advb_any=[]\n",
+    "get_wordlist(advb_any, 'RBS', \"RBR\", \"RBS\", \"RP\") "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 132,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "['tradesman', 'following', 'business', 'sitting-room', 'apartment', 'arrival', 'opinion', 'assistant', 'kitchen-maid', 'commission', 'commission', 'kensington', \"three-penn'orth\", 'position', \"lady's-maid\", 'abigail', 'position', 'dignity', 'situation', 'something', 'company', 'tradesman', 'favourite', 'tradesman', 'company', 'opinion', 'afternoon', 'gentleman', 'portmanteau', 'parlour-maid', 'tradesman', 'gentleman', 'tradesman', 'gentleman', 'gentleman', 'anything', 'second-class', 'character', 'continued', 'opinion', 'character', 'character', 'business', 'parliament', 'situation', 'gentleman', 'kitchen-maid', 'character', 'excellent', 'housemaid', 'governess', 'clergyman', 'ladyship', 'housemaid', 'business', 'parlour-maid', 'family', 'position', 'parlour-maid', 'minister', 'parliament', 'enemy', 'beginning', 'ambition', 'gentleman', \"lady's-maid\", 'baronet', 'gentleman', 'opinion', 'courtesy', 'family', 'nursery', 'grandmother', 'family', 'ladyship', 'levelling', 'salvation', 'position', 'singleness', 'impudent', 'experience', 'compunction', 'position', 'business', 'anything', 'anecdote', 'anecdote', 'bookbinder', 'gentleman', 'burnisher', 'machinist', 'coverer', 'instrument', 'umbrella', 'photo-frame', 'portmanteau', 'perfumer', 'century', 'direction', 'history', 'chivalry', 'provident', 'family', 'household', 'subsistence', 'babylon', 'business', 'appearance', 'plethora', 'something', 'employment', 'employment', 'governess', 'flower-girl', 'anything', 'connection', 'character', 'evidence', 'appearance', 'appearance', 'description', 'lodging-house', 'companion', 'fireplace', 'landlady', 'evening', 'evening', 'employment', 'landlady', 'business', 'relations', 'volumes', 'tradesmen', 'purchases', \"ladies'-maids\", 'men-servants', \"ladies'-maids\", 'mistresses', 'mistresses', 'mistresses', 'characters', 'mistresses', 'characters', 'mistresses', 'mistresses', 'characters', 'kitchen-maids', 'kitchen-maids', 'housemaids', 'mistresses', 'mistresses', 'mistresses', 'gentlemen', 'mistresses', 'opinions', 'opinions', 'mistresses', 'maid-servants', 'politics', 'families', 'maid-servants', 'relations', 'relations', 'visitors', 'families', 'distinctions', 'mistresses', 'men-servants', 'men-servants', 'men-servants', 'cricketers', 'men-servants', 'articles', 'employments', 'examples', 'employments', 'implements', 'labourers', 'besides', 'unionists', 'motives', 'interests', 'londoners', 'villages', 'characters', 'clergymen', 'proceedings', 'music-halls', 'minutes', 'employments', 'ornaments', 'mistresses']\n"
+     ]
+    }
+   ],
+   "source": [
+    "three_syl_nouns=[]\n",
+    "for i in range(0, len(nouns_any)-1):\n",
+    "    if syllable_count(nouns_any[i])==3:\n",
+    "        three_syl_nouns.append(nouns_any[i])\n",
+    "print(three_syl_nouns)\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 133,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "['many', 'wesleyan', 'sunday', 'various', 'present', 'sorry', 'cooked', 'house-', 'handsome', 'lady', 'empty', 'fifty', 'other', 'female', 'many', 'other', 'burial', 'upper', 'servant', 'sleeping', 'proper', 'stingy', 'fixed', 'servant', 'servant', 'other', 'many', 'other', 'lady', 'constant', 'british', 'weekly', 'graphic', 'lady', 'sunday', 'foolish', 'foolish', 'other', 'married', 'half-a', 'former', 'lady', 'easy', 'other', 'sunday', 'other', 'lady', 'equal', 'social', 'alive', 'lady', 'present', 'dirty', 'previous', 'third-class', 'third-class', 'london', 'become', 'christian', 'lady-', 'content', 'unto', 'hundred', 'lady', 'lady', 'famous', 'work-girls', 'hundred', 'distinct', 'pattern', 'magic', 'lantern', 'only', 'female', 'other', 'equal', 'female', 'human', 'mixed', 'female', 'work-girls', 'happy', 'london', 'other', 'curious', 'daily', 'modern', 'central', 'various', 'ragged', 'anxious', 'other', 'present', 'london', 'london', 'helpless', 'london', 'proper', 'work-girls', 'hidden', 'hidden', 'open', 'hidden', 'tempted', 'proper', 'further', 'various', 'forty', 'work-girl', 'various', 'other', 'latch-key', 'other', 'needless', 'other', 'easy', 'other', 'public', 'worthy', 'hidden', 'other', 'many', 'common', 'many', 'higher', 'higher', 'better', 'easier', 'sooner', 'better', 'weaker', 'greater', 'answer', 'largest', 'largest', 'youngest', 'greatest', 'smallest', 'happiest']\n"
+     ]
+    }
+   ],
+   "source": [
+    "two_syl_adjs=[]\n",
+    "for i in range(0, len(adjs_any)-1):\n",
+    "    if syllable_count(adjs_any[i])==2:\n",
+    "        two_syl_adjs.append(adjs_any[i])\n",
+    "print(two_syl_adjs)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 134,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "['better', 'better']\n"
+     ]
+    }
+   ],
+   "source": [
+    "two_syl_advb=[]\n",
+    "for i in range(0, len(advb_any)-1):\n",
+    "    if syllable_count(advb_any[i])==2:\n",
+    "        two_syl_advb.append(advb_any[i])\n",
+    "print(two_syl_advb)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 135,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "previous perfumer\n"
+     ]
+    }
+   ],
+   "source": [
+    "##haiku_5\n",
+    "print(two_syl_adjs[randint(0,len(two_syl_adjs)-1)]+\" \"+ three_syl_nouns[randint(0,len(three_syl_nouns)-1)] )"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 136,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "happy relations other\n"
+     ]
+    }
+   ],
+   "source": [
+    "## haiku_7\n",
+    "## need 2 syllables\n",
+    "\n",
+    "join_words=['and', 'is', 'on', 'if']\n",
+    "print(two_syl_adjs[randint(0,len(two_syl_adjs)-1)]+\" \"+ three_syl_nouns[randint(0,len(three_syl_nouns)-1)] + \" \" + two_syl_adjs[randint(0,len(two_syl_adjs)-1)])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 137,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "distinct compunction\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(two_syl_adjs[randint(0,len(two_syl_adjs)-1)]+\" \"+ three_syl_nouns[randint(0,len(three_syl_nouns)-1)] )"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## put the print statements in a function, temporary solution"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 140,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def haiku():\n",
+    "    print(two_syl_adjs[randint(0,len(two_syl_adjs)-1)]+\" \"+ three_syl_nouns[randint(0,len(three_syl_nouns)-1)] )\n",
+    "    print(two_syl_adjs[randint(0,len(two_syl_adjs)-1)]+\" \"+ three_syl_nouns[randint(0,len(three_syl_nouns)-1)] + \" \" + two_syl_adjs[randint(0,len(two_syl_adjs)-1)])\n",
+    "    print(two_syl_adjs[randint(0,len(two_syl_adjs)-1)]+\" \"+ three_syl_nouns[randint(0,len(three_syl_nouns)-1)] )"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## call the function:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 124,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "servant family\n",
+      "other characters easier\n",
+      "human mistresses\n"
+     ]
+    }
+   ],
+   "source": [
+    "haiku()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 141,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "lady business\n",
+      "better family latch-key\n",
+      "open continued\n"
+     ]
+    }
+   ],
+   "source": [
+    "haiku()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 142,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "stingy families\n",
+      "female appearance weekly\n",
+      "unto family\n"
+     ]
+    }
+   ],
+   "source": [
+    "haiku()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "attempt at a random generation format--still tinkering"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 125,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "\n",
+    "#haiku: \n",
+    "#They have 5 syllables in the first line\n",
+    "#7 syllables in the second line\n",
+    "#5 syllables in the last line.\n",
+    "#sample haiku\n",
+    "# Amazing chaos,\n",
+    "# graceful cold scenery,\n",
+    "# irreplaceable inspiration.\n",
+    "# def haiku_5():\n",
+    "#     line_one=[]\n",
+    "#     line_two=[]\n",
+    "#     line_three=[]\n",
+    "#     for i in range(0, len(nouns_any)-1):\n",
+    "#         word_1=nouns_any[i]\n",
+    "#         for i in range(0, len(adjs_any)-1):\n",
+    "#             word_2=adjs_any[i]\n",
+    "#             if (syllable_count(word_1)+syllable_count(word_2))== 5:\n",
+    "#                 haiku_made = word_1 +\" \"+ word_2\n",
+    "#     return haiku_made\n",
+    "            "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.3"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
